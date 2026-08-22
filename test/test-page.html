@@ -1,0 +1,383 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AI-o-Meter Test Suite & Interactive Preview</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../popup/popup.css">
+  <style>
+    :root {
+      --test-bg: #EDEBE4;
+      --card-bg: #FFFFFF;
+    }
+    body {
+      width: 100%;
+      max-width: 1280px;
+      margin: 0 auto;
+      padding: 40px 24px 80px;
+      background: var(--test-bg);
+      font-family: 'Inter', sans-serif;
+      color: #1A1A1A;
+    }
+    header.suite-header {
+      margin-bottom: 36px;
+    }
+    header.suite-header h1 {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 28px;
+      margin: 0 0 8px;
+      letter-spacing: -0.02em;
+    }
+    header.suite-header p {
+      margin: 0;
+      color: #555;
+      font-size: 15px;
+      max-width: 750px;
+      line-height: 1.5;
+    }
+    .layout-grid {
+      display: grid;
+      grid-template-columns: 1fr 360px;
+      gap: 32px;
+      align-items: start;
+    }
+    @media (max-width: 900px) {
+      .layout-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+    .article-selector {
+      display: flex;
+      gap: 10px;
+      margin-bottom: 20px;
+    }
+    .tab-btn {
+      padding: 8px 16px;
+      border-radius: 8px;
+      border: 1px solid #D6D4CC;
+      background: #FFFFFF;
+      font-family: 'Space Grotesk', sans-serif;
+      font-weight: 600;
+      font-size: 13px;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .tab-btn.active {
+      background: #1A1A1A;
+      color: #FFF;
+      border-color: #1A1A1A;
+    }
+    .article-card {
+      background: #FFFFFF;
+      border-radius: 12px;
+      padding: 32px 36px;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.06);
+      line-height: 1.7;
+      font-size: 15px;
+      color: #2D2D2D;
+    }
+    .article-card h2 {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 22px;
+      margin-top: 0;
+      margin-bottom: 12px;
+      color: #111;
+    }
+    .article-meta {
+      font-size: 12.5px;
+      color: #777;
+      margin-bottom: 20px;
+      padding-bottom: 12px;
+      border-bottom: 1px solid #EEE;
+    }
+    .sticky-preview {
+      position: sticky;
+      top: 24px;
+    }
+    .preview-caption {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 13px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: #666;
+      margin-bottom: 10px;
+      text-align: center;
+    }
+  </style>
+</head>
+<body>
+
+  <header class="suite-header">
+    <h1>AI-o-Meter — Test Suite & Popup Preview</h1>
+    <p>This test harness evaluates live DOM text extraction, 6-signal heuristic analysis, and the Icon Spectrum popup UI across three distinct writing benchmarks.</p>
+  </header>
+
+  <div class="layout-grid">
+    <!-- Left Column: Test Articles -->
+    <main>
+      <div class="article-selector">
+        <button class="tab-btn active" id="btnTab1" onclick="switchArticle(1)">Sample 1: Mostly Human</button>
+        <button class="tab-btn" id="btnTab2" onclick="switchArticle(2)">Sample 2: Mixed / AI-Assisted</button>
+        <button class="tab-btn" id="btnTab3" onclick="switchArticle(3)">Sample 3: AI-Generated</button>
+      </div>
+
+      <article class="article-card" id="articleBody">
+        <!-- Injected via JavaScript -->
+      </article>
+    </main>
+
+    <!-- Right Column: Live Popup Simulator -->
+    <aside class="sticky-preview">
+      <div class="preview-caption">Live Popup Simulation</div>
+      
+      <div class="popup-shell" id="popupShell" style="--accent: #2E9E5B; --accent-bg: #E4F5EA;">
+        <div class="ph-top">
+          <div class="ph-domain-group">
+            <span class="ph-app-badge">AI</span>
+            <span class="ph-domain" id="domainText">journal.samwrites.dev</span>
+          </div>
+          <div class="ph-actions">
+            <span class="ph-words" id="wordsText">0 words</span>
+            <button id="btnRescan" class="icon-btn" title="Rescan page" onclick="evaluateCurrentArticle()">
+              <svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M21.5 2v6h-6M2.5 22v-6h6M2 11.5a10 10 0 0 1 18.8-4.3M22 12.5a10 10 0 0 1-18.8 4.3"/>
+              </svg>
+            </button>
+          </div>
+        </div>
+
+        <div class="spectrum">
+          <div class="icon-row">
+            <div class="icon-slot active" id="slotHuman">
+              <div class="icon-circle">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <circle cx="12" cy="8" r="4"/>
+                  <path d="M4 21c0-4.4 3.6-7 8-7s8 2.6 8 7"/>
+                </svg>
+              </div>
+              <span class="ic-label">Human</span>
+            </div>
+
+            <div class="icon-slot" id="slotMixed">
+              <div class="icon-circle">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M12 3 3 8l9 5 9-5-9-5Z"/>
+                  <path d="M3 8v8l9 5 9-5V8"/>
+                  <path d="M12 13v8"/>
+                </svg>
+              </div>
+              <span class="ic-label">Mixed</span>
+            </div>
+
+            <div class="icon-slot" id="slotRobot">
+              <div class="icon-circle">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <rect x="5" y="8" width="14" height="11" rx="3"/>
+                  <line x1="12" y1="4" x2="12" y2="8"/><circle cx="12" cy="4" r="1.4" fill="currentColor" stroke="none"/>
+                  <circle cx="9" cy="13.5" r="1.3" fill="currentColor" stroke="none"/><circle cx="15" cy="13.5" r="1.3" fill="currentColor" stroke="none"/>
+                  <line x1="2" y1="12" x2="5" y2="12"/><line x1="19" y1="12" x2="22" y2="12"/>
+                </svg>
+              </div>
+              <span class="ic-label">Robot</span>
+            </div>
+          </div>
+
+          <div class="track-wrap">
+            <div class="track-fill" id="trackFill" style="width: 12%;"></div>
+            <div class="track-dot" id="trackDot" style="left: 12%;"></div>
+          </div>
+        </div>
+
+        <div class="verdict" id="verdictText">
+          Likely <span class="pct" id="verdictHighlight">human-written</span>
+          <span class="score-pill" id="scorePill">12%</span>
+        </div>
+        <div class="subverdict" id="subverdictText">
+          Uneven rhythm, first-person asides, natural conversational tone.
+        </div>
+
+        <div class="divider"></div>
+
+        <div class="breakdown">
+          <div class="b-row">
+            <span class="b-name">Burstiness</span>
+            <div class="b-track"><span id="barBurstiness" style="width: 22%;"></span></div>
+            <span class="b-val" id="valBurstiness">22%</span>
+          </div>
+          <div class="b-row">
+            <span class="b-name">Clichés & Buzz</span>
+            <div class="b-track"><span id="barCliches" style="width: 15%;"></span></div>
+            <span class="b-val" id="valCliches">15%</span>
+          </div>
+          <div class="b-row">
+            <span class="b-name">Repetition</span>
+            <div class="b-track"><span id="barLexical" style="width: 18%;"></span></div>
+            <span class="b-val" id="valLexical">18%</span>
+          </div>
+          <div class="b-row">
+            <span class="b-name">Formality</span>
+            <div class="b-track"><span id="barFormality" style="width: 10%;"></span></div>
+            <span class="b-val" id="valFormality">10%</span>
+          </div>
+          <div class="b-row">
+            <span class="b-name">Structure</span>
+            <div class="b-track"><span id="barStructure" style="width: 12%;"></span></div>
+            <span class="b-val" id="valStructure">12%</span>
+          </div>
+        </div>
+
+        <div class="ph-footer">
+          <span>100% Client-side Heuristic Analysis</span>
+        </div>
+      </div>
+    </aside>
+  </div>
+
+  <script src="../src/cliches.js"></script>
+  <script src="../src/analyzer.js"></script>
+  <script>
+    const ARTICLES = {
+      1: {
+        domain: "journal.samwrites.dev",
+        title: "Debugging a Gnarly WebSocket Memory Leak at 2 AM",
+        meta: "Published by Sam · 6 min read · Personal Blog",
+        content: `
+          <p>Hey folks! So yesterday I spent nearly four agonizing hours tracking down this bizarre memory leak in our production real-time dashboard. We'd deploy a new build, everything would look pristine for about thirty minutes, and then boom — node heap memory started climbing up like a hockey stick until Kubernetes killed the pod.</p>
+          <p>Naturally, my first instinct was to blame our WebSocket client library. I dug through their GitHub issues, tried downgrading three minor versions, and even wrote a tiny custom wrapper around the reconnect logic. Nothing changed.</p>
+          <p>It wasn't until around 1:45 AM, after downing a brutally bitter cup of cold brew and mumbling to myself like a crazy person, that I finally took a heap snapshot with Chrome DevTools. Guess what? We had an event listener inside a custom React hook that was capturing a stale state closure and never unsubscribing when components unmounted!</p>
+          <p>The fix? Literally two lines of code inside a cleanup function. Don't be like me — always double-check your cleanup returns before going down a 4-hour rabbit hole.</p>
+        `
+      },
+      2: {
+        domain: "producthub.io/blog",
+        title: "Scaling Engineering Workflows: A Modern Approach to State Machines",
+        meta: "Published by Tech Editorial Team · 5 min read · Architecture",
+        content: `
+          <p>When we redesigned our core dashboard last quarter, our biggest headache was keeping complex state synchronized across tabs. I've spent the better part of three weeks profiling re-renders, and honestly, raw Redux wasn't cutting it anymore. We decided to try hierarchical statecharts instead.</p>
+          <p>First and foremost, let us delve into the architectural foundations of statecharts. It is important to note that state synchronization plays a pivotal role in ensuring deterministic user flows. By eliminating impossible states, developers can harness the power of explicit transitions.</p>
+          <p>Furthermore, integrating state machines with reactive streams offers a structured mechanism for handling asynchronous side effects. The approach allows engineering teams to unlock new possibilities when orchestrating multi-step authentication workflows.</p>
+          <p>So if your app is drowning in boolean flags like isLoading and isError, give statecharts a shot. It took us a few days to get used to the syntax, but it completely eliminated our stale UI bugs.</p>
+        `
+      },
+      3: {
+        domain: "techinsights-daily.com",
+        title: "The Transformative Era of Artificial Intelligence in Modern Enterprise",
+        meta: "Published by AI Insights Daily · 4 min read · Technology Trends",
+        content: `
+          <p>In today's fast-paced digital landscape, artificial intelligence plays a pivotal role in reshaping traditional enterprise workflows. It is important to note that machine learning stands as a testament to technological innovation, offering a plethora of multifaceted solutions across diverse sectors.</p>
+          <p>Furthermore, forward-thinking organizations must delve into cutting-edge paradigms to foster sustainable innovation and operational excellence. Harnessing the power of automated intelligence unlocks unprecedented opportunities — creating a rich tapestry of data-driven capabilities.</p>
+          <p>Additionally, modern enterprises are poised to revolutionize customer engagement by adopting holistic generative frameworks:</p>
+          <ul>
+            <li><strong>Firstly:</strong> Accelerating deployment cycles through automated intelligence pipelines.</li>
+            <li><strong>Secondly:</strong> Enhancing predictive decision-making with real-time operational telemetry.</li>
+            <li><strong>Thirdly:</strong> Fostering collaboration across cross-functional enterprise pods.</li>
+          </ul>
+          <p>In conclusion, navigating the complexities of the modern technological era requires an unwavering commitment to continuous advancement. Embracing this revolutionary journey is of paramount importance for long-term strategic success.</p>
+        `
+      }
+    };
+
+    let activeIndex = 1;
+
+    function switchArticle(index) {
+      activeIndex = index;
+      document.querySelectorAll('.tab-btn').forEach((btn, i) => {
+        btn.classList.toggle('active', (i + 1) === index);
+      });
+
+      const article = ARTICLES[index];
+      const articleEl = document.getElementById('articleBody');
+      articleEl.innerHTML = `
+        <h2>${article.title}</h2>
+        <div class="article-meta">${article.meta}</div>
+        ${article.content}
+      `;
+
+      evaluateCurrentArticle();
+    }
+
+    function evaluateCurrentArticle() {
+      const article = ARTICLES[activeIndex];
+      const articleEl = document.getElementById('articleBody');
+      const text = articleEl.innerText || '';
+
+      const result = analyzeText(text, article.domain);
+      renderPreview(result);
+    }
+
+    function renderPreview(data) {
+      const shell = document.getElementById('popupShell');
+      const domainText = document.getElementById('domainText');
+      const wordsText = document.getElementById('wordsText');
+      const verdictText = document.getElementById('verdictText');
+      const subverdictText = document.getElementById('subverdictText');
+      const trackFill = document.getElementById('trackFill');
+      const trackDot = document.getElementById('trackDot');
+
+      const slotHuman = document.getElementById('slotHuman');
+      const slotMixed = document.getElementById('slotMixed');
+      const slotRobot = document.getElementById('slotRobot');
+
+      const barBurstiness = document.getElementById('barBurstiness');
+      const valBurstiness = document.getElementById('valBurstiness');
+      const barCliches = document.getElementById('barCliches');
+      const valCliches = document.getElementById('valCliches');
+      const barLexical = document.getElementById('barLexical');
+      const valLexical = document.getElementById('valLexical');
+      const barFormality = document.getElementById('barFormality');
+      const valFormality = document.getElementById('valFormality');
+      const barStructure = document.getElementById('barStructure');
+      const valStructure = document.getElementById('valStructure');
+
+      const score = data.score;
+      const category = data.category;
+
+      shell.style.setProperty('--accent', data.accentColor);
+      shell.style.setProperty('--accent-bg', data.accentBg);
+
+      domainText.textContent = data.domain;
+      wordsText.textContent = `${data.wordCount} words`;
+
+      slotHuman.classList.toggle('active', category === 'human');
+      slotMixed.classList.toggle('active', category === 'mixed');
+      slotRobot.classList.toggle('active', category === 'robot');
+
+      trackFill.style.width = `${score}%`;
+      trackDot.style.left = `${score}%`;
+
+      if (category === 'human') {
+        verdictText.innerHTML = `Likely <span class="pct">human-written</span> <span class="score-pill">${score}%</span>`;
+      } else if (category === 'mixed') {
+        verdictText.innerHTML = `Looks <span class="pct">human-edited AI</span> <span class="score-pill">${score}%</span>`;
+      } else {
+        verdictText.innerHTML = `Likely <span class="pct">AI-generated</span> <span class="score-pill">${score}%</span>`;
+      }
+
+      subverdictText.textContent = data.subverdict;
+
+      const bd = data.breakdown;
+      barBurstiness.style.width = `${bd.burstiness}%`;
+      valBurstiness.textContent = `${bd.burstiness}%`;
+
+      barCliches.style.width = `${bd.cliches}%`;
+      valCliches.textContent = `${bd.cliches}%`;
+
+      barLexical.style.width = `${bd.lexical}%`;
+      valLexical.textContent = `${bd.lexical}%`;
+
+      barFormality.style.width = `${bd.formality}%`;
+      valFormality.textContent = `${bd.formality}%`;
+
+      barStructure.style.width = `${bd.structure}%`;
+      valStructure.textContent = `${bd.structure}%`;
+    }
+
+    // Initialize
+    switchArticle(1);
+  </script>
+</body>
+</html>

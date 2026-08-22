@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AI-o-Meter</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="popup.css">
+</head>
+<body>
+  <div class="popup-shell" id="popupShell" style="--accent: #2E9E5B; --accent-bg: #E4F5EA;">
+    <!-- Top Bar -->
+    <div class="ph-top">
+      <div class="ph-domain-group">
+        <span class="ph-app-badge">AI</span>
+        <span class="ph-domain" id="domainText" title="Current page domain">Loading...</span>
+      </div>
+      <div class="ph-actions">
+        <span class="ph-words" id="wordsText">0 words</span>
+        <button id="btnRescan" class="icon-btn" title="Rescan current page">
+          <svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M21.5 2v6h-6M2.5 22v-6h6M2 11.5a10 10 0 0 1 18.8-4.3M22 12.5a10 10 0 0 1-18.8 4.3"/>
+          </svg>
+        </button>
+        <button id="btnToggleManual" class="icon-btn" title="Toggle Manual Test & Samples">
+          <svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/>
+            <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/>
+          </svg>
+        </button>
+      </div>
+    </div>
+
+    <!-- Manual Test / Presets Drawer (Collapsible) -->
+    <div class="manual-drawer" id="manualDrawer">
+      <div class="manual-presets">
+        <button class="preset-btn" data-sample="human">Sample: Human</button>
+        <button class="preset-btn" data-sample="mixed">Sample: Mixed</button>
+        <button class="preset-btn" data-sample="robot">Sample: AI Robot</button>
+      </div>
+      <textarea id="customTextInput" placeholder="Paste or type text here to evaluate in real-time..."></textarea>
+      <div class="manual-actions">
+        <button id="btnAnalyzeCustom" class="btn-primary">Evaluate Text</button>
+        <button id="btnRestoreLive" class="btn-secondary">Back to Live Page</button>
+      </div>
+    </div>
+
+    <!-- Main Spectrum Container -->
+    <div class="spectrum">
+      <div class="icon-row">
+        <!-- Human Slot -->
+        <div class="icon-slot active" id="slotHuman" data-slot="human">
+          <div class="icon-circle">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="12" cy="8" r="4"/>
+              <path d="M4 21c0-4.4 3.6-7 8-7s8 2.6 8 7"/>
+            </svg>
+          </div>
+          <span class="ic-label">Human</span>
+        </div>
+
+        <!-- Mixed Slot -->
+        <div class="icon-slot" id="slotMixed" data-slot="mixed">
+          <div class="icon-circle">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M12 3 3 8l9 5 9-5-9-5Z"/>
+              <path d="M3 8v8l9 5 9-5V8"/>
+              <path d="M12 13v8"/>
+            </svg>
+          </div>
+          <span class="ic-label">Mixed</span>
+        </div>
+
+        <!-- Robot Slot -->
+        <div class="icon-slot" id="slotRobot" data-slot="robot">
+          <div class="icon-circle">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <rect x="5" y="8" width="14" height="11" rx="3"/>
+              <line x1="12" y1="4" x2="12" y2="8"/><circle cx="12" cy="4" r="1.4" fill="currentColor" stroke="none"/>
+              <circle cx="9" cy="13.5" r="1.3" fill="currentColor" stroke="none"/><circle cx="15" cy="13.5" r="1.3" fill="currentColor" stroke="none"/>
+              <line x1="2" y1="12" x2="5" y2="12"/><line x1="19" y1="12" x2="22" y2="12"/>
+            </svg>
+          </div>
+          <span class="ic-label">Robot</span>
+        </div>
+      </div>
+
+      <!-- Slider Track -->
+      <div class="track-wrap">
+        <div class="track-fill" id="trackFill" style="width: 12%;"></div>
+        <div class="track-dot" id="trackDot" style="left: 12%;"></div>
+      </div>
+    </div>
+
+    <!-- Verdict -->
+    <div class="verdict" id="verdictText">
+      Likely <span class="pct" id="verdictHighlight">human-written</span>
+      <span class="score-pill" id="scorePill">12%</span>
+    </div>
+    <div class="subverdict" id="subverdictText">
+      Uneven rhythm, natural conversational tone, frequent contractions.
+    </div>
+
+    <div class="divider"></div>
+
+    <!-- Breakdown Details -->
+    <div class="breakdown">
+      <div class="b-row">
+        <span class="b-name">Burstiness</span>
+        <div class="b-track"><span id="barBurstiness" style="width: 22%;"></span></div>
+        <span class="b-val" id="valBurstiness">22%</span>
+      </div>
+      <div class="b-row">
+        <span class="b-name">Clichés & Buzz</span>
+        <div class="b-track"><span id="barCliches" style="width: 15%;"></span></div>
+        <span class="b-val" id="valCliches">15%</span>
+      </div>
+      <div class="b-row">
+        <span class="b-name">Repetition</span>
+        <div class="b-track"><span id="barLexical" style="width: 18%;"></span></div>
+        <span class="b-val" id="valLexical">18%</span>
+      </div>
+      <div class="b-row">
+        <span class="b-name">Formality</span>
+        <div class="b-track"><span id="barFormality" style="width: 10%;"></span></div>
+        <span class="b-val" id="valFormality">10%</span>
+      </div>
+      <div class="b-row">
+        <span class="b-name">Structure</span>
+        <div class="b-track"><span id="barStructure" style="width: 12%;"></span></div>
+        <span class="b-val" id="valStructure">12%</span>
+      </div>
+    </div>
+
+    <!-- Footer info -->
+    <div class="ph-footer">
+      <span>100% Client-side Heuristic Analysis</span>
+    </div>
+  </div>
+
+  <script src="../src/cliches.js"></script>
+  <script src="../src/analyzer.js"></script>
+  <script src="popup.js"></script>
+</body>
+</html>

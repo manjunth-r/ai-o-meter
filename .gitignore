@@ -1,0 +1,21 @@
+# Node / NPM
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# System Files
+.DS_Store
+Thumbs.db
+
+# IDE & Workspace
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Build / Output
+dist/
+build/
+*.crx
+*.zip
