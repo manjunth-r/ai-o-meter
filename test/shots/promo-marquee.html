@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Marquee Promo Tile (1400x560)</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../../popup/popup.css">
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html, body {
+      width: 1400px;
+      height: 560px;
+      background: radial-gradient(circle at 80% 50%, #252522 0%, #121212 100%);
+      color: #FFFFFF;
+      font-family: 'Inter', sans-serif;
+      overflow: hidden;
+    }
+    .marquee-container {
+      width: 1400px;
+      height: 560px;
+      padding: 60px 90px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .left-content {
+      max-width: 680px;
+    }
+    .brand {
+      display: inline-flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 20px;
+    }
+    .brand-badge {
+      width: 36px;
+      height: 36px;
+      background: #FFF;
+      color: #121212;
+      border-radius: 8px;
+      font-family: 'Space Grotesk', sans-serif;
+      font-weight: 700;
+      font-size: 18px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .brand-title {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 22px;
+      font-weight: 700;
+      letter-spacing: -0.01em;
+    }
+    .headline {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 46px;
+      line-height: 1.15;
+      margin-bottom: 16px;
+      letter-spacing: -0.03em;
+    }
+    .headline span {
+      color: #2E9E5B;
+    }
+    .desc {
+      font-size: 18px;
+      color: #A6A6A0;
+      line-height: 1.6;
+      margin-bottom: 28px;
+    }
+    .tags {
+      display: flex;
+      gap: 12px;
+    }
+    .tag {
+      background: #242422;
+      border: 1px solid #383834;
+      padding: 8px 18px;
+      border-radius: 30px;
+      font-size: 13.5px;
+      font-weight: 500;
+      color: #D6D6D0;
+    }
+    .popup-wrapper {
+      transform: scale(1.15);
+      margin-right: 30px;
+      filter: drop-shadow(0 20px 40px rgba(0,0,0,0.5));
+    }
+  </style>
+</head>
+<body>
+  <div class="marquee-container">
+    <div class="left-content">
+      <div class="brand">
+        <div class="brand-badge">AI</div>
+        <div class="brand-title">AI-o-Meter</div>
+      </div>
+      <div class="headline">Know what's Human.<br><span>Detect what's AI.</span></div>
+      <div class="desc">Lightweight, 100% on-device AI likelihood gauge with an instant Icon Spectrum and transparent 6-signal breakdown.</div>
+      <div class="tags">
+        <span class="tag">⚡ Sub-50ms Local Scan</span>
+        <span class="tag">🔒 Zero Data Collection</span>
+        <span class="tag">🎯 6 Inspectable Tells</span>
+      </div>
+    </div>
+
+    <div class="popup-wrapper">
+      <div class="popup-shell" style="--accent: #2E9E5B; --accent-bg: #E4F5EA; width: 340px;">
+        <div class="ph-top">
+          <div class="ph-domain-group">
+            <span class="ph-app-badge">AI</span>
+            <span class="ph-domain">journal.samwrites.dev</span>
+          </div>
+          <div class="ph-actions"><span class="ph-words">840 words</span></div>
+        </div>
+        <div class="spectrum">
+          <div class="icon-row">
+            <div class="icon-slot active">
+              <div class="icon-circle">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <circle cx="12" cy="8" r="4"/><path d="M4 21c0-4.4 3.6-7 8-7s8 2.6 8 7"/>
+                </svg>
+              </div>
+              <span class="ic-label">Human</span>
+            </div>
+            <div class="icon-slot">
+              <div class="icon-circle">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M12 3 3 8l9 5 9-5-9-5Z"/><path d="M3 8v8l9 5 9-5V8"/><path d="M12 13v8"/>
+                </svg>
+              </div>
+              <span class="ic-label">Mixed</span>
+            </div>
+            <div class="icon-slot">
+              <div class="icon-circle">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <rect x="5" y="8" width="14" height="11" rx="3"/><line x1="12" y1="4" x2="12" y2="8"/><circle cx="12" cy="4" r="1.4" fill="currentColor" stroke="none"/><circle cx="9" cy="13.5" r="1.3" fill="currentColor" stroke="none"/><circle cx="15" cy="13.5" r="1.3" fill="currentColor" stroke="none"/><line x1="2" y1="12" x2="5" y2="12"/><line x1="19" y1="12" x2="22" y2="12"/>
+                </svg>
+              </div>
+              <span class="ic-label">Robot</span>
+            </div>
+          </div>
+          <div class="track-wrap">
+            <div class="track-fill" style="width: 8%; background: #2E9E5B;"></div>
+            <div class="track-dot" style="left: 8%; border-color: #2E9E5B;"></div>
+          </div>
+        </div>
+        <div class="verdict">Likely <span class="pct" style="color: #2E9E5B;">human-written</span> <span class="score-pill" style="background: #E4F5EA; color: #2E9E5B; border-color: #2E9E5B;">8%</span></div>
+        <div class="subverdict">Uneven rhythm, first-person asides, conversational flow.</div>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

@@ -60,11 +60,11 @@ English
 | Store Icon [REQUIRED] | 128×128 PNG | ✅ Ready | `icons/icon-128.png` |
 | Extension Icon 48 | 48×48 PNG | ✅ Ready | `icons/icon-48.png` |
 | Extension Icon 16 | 16×16 PNG | ✅ Ready | `icons/icon-16.png` |
-| Screenshot 1 [REQUIRED] | 1280×800 PNG | ✅ Ready | Human writing state with popup breakdown (`test/store-showcase.html#shot1`) |
-| Screenshot 2 [RECOMMENDED] | 1280×800 PNG | ✅ Ready | Mixed/AI-assisted state (`test/store-showcase.html#shot2`) |
-| Screenshot 3 [RECOMMENDED] | 1280×800 PNG | ✅ Ready | AI-generated state (`test/store-showcase.html#shot3`) |
-| Small Promo Tile [RECOMMENDED] | 440×280 PNG | ✅ Ready | `test/store-showcase.html#smallPromo` |
-| Marquee Promo Tile | 1400×560 PNG | ✅ Ready | `test/store-showcase.html#marqueePromo` |
+| Screenshot 1 [REQUIRED] | 1280×800 PNG | ✅ Ready | `store-assets/screenshot-1-human.png` |
+| Screenshot 2 [RECOMMENDED] | 1280×800 PNG | ✅ Ready | `store-assets/screenshot-2-mixed.png` |
+| Screenshot 3 [RECOMMENDED] | 1280×800 PNG | ✅ Ready | `store-assets/screenshot-3-ai.png` |
+| Small Promo Tile [RECOMMENDED] | 440×280 PNG | ✅ Ready | `store-assets/small-promo-tile.png` |
+| Marquee Promo Tile | 1400×560 PNG | ✅ Ready | `store-assets/marquee-promo-tile.png` |
 
 ---
 

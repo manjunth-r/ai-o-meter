@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Screenshot 1 — Human State</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../../popup/popup.css">
+  <style>
+    * { box-sizing: border-box; }
+    html, body {
+      width: 1280px;
+      height: 800px;
+      margin: 0;
+      padding: 0;
+      background: #F2F0EA;
+      font-family: 'Inter', sans-serif;
+      overflow: hidden;
+    }
+    .mock-browser {
+      height: 52px;
+      background: #E4E2DA;
+      border-bottom: 1px solid #D2D0C6;
+      display: flex;
+      align-items: center;
+      padding: 0 20px;
+      gap: 12px;
+    }
+    .traffic-dots { display: flex; gap: 7px; }
+    .dot { width: 11px; height: 11px; border-radius: 50%; background: #BBB9B0; }
+    .mock-address-bar {
+      flex: 1;
+      height: 32px;
+      background: #FFFFFF;
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      padding: 0 14px;
+      font-size: 13px;
+      color: #555;
+      border: 1px solid #D2D0C6;
+      margin: 0 24px;
+      font-family: monospace;
+    }
+    .ext-toolbar-icon {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      background: #FFFFFF;
+      padding: 4px 12px;
+      border-radius: 6px;
+      border: 1px solid #D2D0C6;
+      font-size: 12px;
+      font-weight: 700;
+    }
+    .badge-indicator {
+      color: #FFF;
+      padding: 2px 7px;
+      border-radius: 4px;
+      font-size: 11px;
+      font-weight: 700;
+    }
+    .viewport {
+      width: 1280px;
+      height: 748px;
+      display: grid;
+      grid-template-columns: 1fr 380px;
+      padding: 36px 54px;
+      gap: 40px;
+      align-items: start;
+    }
+    .article-preview {
+      background: #FFFFFF;
+      padding: 38px 44px;
+      border-radius: 14px;
+      border: 1px solid #E2E0D6;
+      box-shadow: 0 6px 20px rgba(0,0,0,0.04);
+      line-height: 1.75;
+      color: #2D2D2D;
+    }
+    .article-preview h1 {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 26px;
+      margin: 0 0 12px;
+      color: #111;
+      line-height: 1.25;
+    }
+    .article-meta {
+      font-size: 12.5px;
+      color: #777;
+      margin-bottom: 20px;
+      padding-bottom: 12px;
+      border-bottom: 1px solid #EFEFEA;
+    }
+    .callout-overlay {
+      position: relative;
+    }
+    .callout-tag {
+      display: inline-block;
+      background: #1A1A1A;
+      color: #FFF;
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 11px;
+      font-weight: 700;
+      padding: 4px 14px;
+      border-radius: 20px;
+      margin-bottom: 12px;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+    }
+  </style>
+</head>
+<body>
+  <div class="mock-browser">
+    <div class="traffic-dots"><div class="dot"></div><div class="dot"></div><div class="dot"></div></div>
+    <div class="mock-address-bar">https://journal.samwrites.dev/debugging-websocket-memory-leak</div>
+    <div class="ext-toolbar-icon">
+      <span>AI-o-Meter</span>
+      <span class="badge-indicator" style="background: #2E9E5B;">8%</span>
+    </div>
+  </div>
+
+  <div class="viewport">
+    <div class="article-preview">
+      <h1>Debugging a Gnarly WebSocket Memory Leak at 2 AM</h1>
+      <div class="article-meta">Published by Sam · 6 min read · Engineering Blog</div>
+      <p>Hey folks! So yesterday I spent nearly four agonizing hours tracking down this bizarre memory leak in our production real-time dashboard. We'd deploy a new build, everything would look pristine for about thirty minutes, and then boom — node heap memory started climbing up like a hockey stick until Kubernetes killed the pod.</p>
+      <p>Naturally, my first instinct was to blame our WebSocket client library. I dug through their GitHub issues, tried downgrading three minor versions, and even wrote a tiny custom wrapper around the reconnect logic. Nothing changed.</p>
+      <p>It wasn't until around 1:45 AM, after downing a brutally bitter cup of cold brew and mumbling to myself like a crazy person, that I finally took a heap snapshot with Chrome DevTools. The fix? Literally two lines of code inside a cleanup hook.</p>
+    </div>
+
+    <div class="callout-overlay">
+      <div class="callout-tag">Instant Spectrum · 8%</div>
+      <div class="popup-shell" style="--accent: #2E9E5B; --accent-bg: #E4F5EA; width: 340px; box-shadow: 0 16px 36px rgba(0,0,0,0.18);">
+        <div class="ph-top">
+          <div class="ph-domain-group">
+            <span class="ph-app-badge">AI</span>
+            <span class="ph-domain">journal.samwrites.dev</span>
+          </div>
+          <div class="ph-actions"><span class="ph-words">312 words</span></div>
+        </div>
+        <div class="spectrum">
+          <div class="icon-row">
+            <div class="icon-slot active">
+              <div class="icon-circle">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <circle cx="12" cy="8" r="4"/><path d="M4 21c0-4.4 3.6-7 8-7s8 2.6 8 7"/>
+                </svg>
+              </div>
+              <span class="ic-label">Human</span>
+            </div>
+            <div class="icon-slot">
+              <div class="icon-circle">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M12 3 3 8l9 5 9-5-9-5Z"/><path d="M3 8v8l9 5 9-5V8"/><path d="M12 13v8"/>
+                </svg>
+              </div>
+              <span class="ic-label">Mixed</span>
+            </div>
+            <div class="icon-slot">
+              <div class="icon-circle">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <rect x="5" y="8" width="14" height="11" rx="3"/><line x1="12" y1="4" x2="12" y2="8"/><circle cx="12" cy="4" r="1.4" fill="currentColor" stroke="none"/><circle cx="9" cy="13.5" r="1.3" fill="currentColor" stroke="none"/><circle cx="15" cy="13.5" r="1.3" fill="currentColor" stroke="none"/><line x1="2" y1="12" x2="5" y2="12"/><line x1="19" y1="12" x2="22" y2="12"/>
+                </svg>
+              </div>
+              <span class="ic-label">Robot</span>
+            </div>
+          </div>
+          <div class="track-wrap">
+            <div class="track-fill" style="width: 8%; background: #2E9E5B;"></div>
+            <div class="track-dot" style="left: 8%; border-color: #2E9E5B;"></div>
+          </div>
+        </div>
+        <div class="verdict">Likely <span class="pct" style="color: #2E9E5B;">human-written</span> <span class="score-pill" style="background: #E4F5EA; color: #2E9E5B; border-color: #2E9E5B;">8%</span></div>
+        <div class="subverdict">Uneven rhythm, natural conversational tone, frequent contractions.</div>
+        <div class="divider"></div>
+        <div class="breakdown">
+          <div class="b-row"><span class="b-name">Burstiness</span><div class="b-track"><span style="width: 8%; background: #2E9E5B;"></span></div><span class="b-val">8%</span></div>
+          <div class="b-row"><span class="b-name">Clichés & Buzz</span><div class="b-track"><span style="width: 0%; background: #2E9E5B;"></span></div><span class="b-val">0%</span></div>
+          <div class="b-row"><span class="b-name">Repetition</span><div class="b-track"><span style="width: 10%; background: #2E9E5B;"></span></div><span class="b-val">10%</span></div>
+          <div class="b-row"><span class="b-name">Formality</span><div class="b-track"><span style="width: 8%; background: #2E9E5B;"></span></div><span class="b-val">8%</span></div>
+          <div class="b-row"><span class="b-name">Structure</span><div class="b-track"><span style="width: 59%; background: #2E9E5B;"></span></div><span class="b-val">59%</span></div>
+        </div>
+        <div class="ph-footer"><span>100% Client-side Heuristic Analysis</span></div>
+      </div>
+    </div>
+  </div>
+</body>
+</html>
